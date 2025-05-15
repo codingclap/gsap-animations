@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horizontal LeftScroll</title>
+</head>
+
+<body>
+    <style>
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        html {
+            scrollbar-width: none;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: sans-serif;
+            background-color: #000;
+            color: #fff;
+        }
+
+        .main-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        .extra-long-container {
+            width: 4000px;
+            height: 100%;
+            position: relative;
+            background: slateblue;
+            border:8px dotted black;
+        }
+
+        .box1 {
+            width: 200px;
+            height: 200px;
+            position: absolute;
+            z-index: 3;
+            top: 50%;
+            left: 1200px;
+            background: blue;
+            transform: translate(0, -50%);
+        }
+
+        .horizontal-coordinate {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 1000;
+            color: white;
+            font-size: 20px;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 5px;
+            border-radius: 5px;
+        }
+    </style>
+
+    <div class="main-container">
+        <p class="horizontal-coordinate">x: 0</p>
+        <div class="extra-long-container">
+
+
+            <div class="box1">
+
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/ScrollTrigger.min.js"></script>
+
+    <script>
+        const mainContainer = document.querySelector(".main-container");
+        const extraLongContainer = mainContainer.querySelector(".extra-long-container");
+        const horizontalCoordinate = mainContainer.querySelector(".horizontal-coordinate");
+
+        // const onScroll = (event) => {
+        //     const delta = Math.sign(event.deltaY); // 1 for down, -1 for up 
+        //     console.log(delta);
+
+        //     if (delta == 1) {
+        //         mainContainer.scrollLeft = mainContainer.scrollLeft + 20;
+        //     } else {
+        //         mainContainer.scrollLeft = mainContainer.scrollLeft - 20;
+        //     }
+        //     horizontalCoordinate.innerText = "x: " + mainContainer.scrollLeft;
+        // }
+        // document.addEventListener("wheel", onScroll);
+
+        // use a script tag or an external JS file
+
+        gsap.registerPlugin(ScrollTrigger);
+
+        let scrollLeft = gsap.to(".extra-long-container", {
+            xPercent: -100,
+            x: () => window.innerWidth,
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".extra-long-container",
+                start: "top top",
+                end: () => "+=" + extraLongContainer.offsetWidth + "px",
+                scrub: true,
+                pin: true,
+                invalidateOnRefresh: true,
+                anticipatePin: 1
+            }
+        });
+
+        const t1 = gsap.timeline({
+            scrollTrigger: {
+                trigger: ".box1",
+                start: "left 70%",
+                end: "left 20%",
+                scrub: 1,
+                containerAnimation: scrollLeft,
+                markers: true
+            },
+        });
+
+        // t1.to(".box1", {
+        //     scale: 2,
+        //     rotation: 360,
+        //     duration: 3
+        // });
+
+
+    </script>
+</body>
+
+</html>
