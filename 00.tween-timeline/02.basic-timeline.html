@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic Timeline</title>
+</head>
+
+<body>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0px;
+        }
+
+        body {
+            font-family: sans-serif;
+            background-color: #b082ec;
+            color: #fff;
+        }
+
+        .container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: start;
+            row-gap: 20px;
+        }
+
+        .box1{
+            width: 150px;
+            height: 120px;
+            background: blue;
+            padding: 5px;
+        }
+
+        .box2 {
+            width: 150px;
+            height: 120px;
+            background: rgb(102, 255, 0);
+            padding: 5px;
+        }
+
+        .box3 {
+            width: 150px;
+            height: 120px;
+            background: rgb(155, 1, 1);
+            padding: 5px;
+        }
+        .box4 {
+            width: 150px;
+            height: 120px;
+            background: rgb(0, 84, 90);
+            padding: 5px;
+        }
+    </style>
+
+    <div class="container">
+        <div class="box1">tween - position</div>
+        <div class="box2">tween - position</div>
+        <div class="box3">tween - position</div>
+         <div class="box4">tween - position</div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+
+    <script>
+        //A timeline is a sequence of tweens, organized in a specific order or with specific timing relationships.   
+        //GSAP timeline is a collection of tweens that can be played, paused, reversed, or controlled as a single unit.
+        // "+=1" means start 1 second after the previous animation ends 
+        // ">" means start at the same time as the previous animation ends 
+        // "<" means start at the same time as the previous animation starts
+
+        var animation = gsap.timeline();
+
+        animation
+        .to(".box1", { duration:2, x:1150 })
+        .to(".box2", { duration:2, x:1150, }, 1)                   // "+=1" means start 1 second after the previous animation ends               
+        .to(".box3",{ duration:2,x:1150 }, ">")                   // ">" means start at the same time as the previous animation ends 
+        .to(".box4",{ duration:2,x:1150 }, "<")                   // "<" means start at the same time as the previous animation starts                               
+    </script>
+</body>
+
+</html>
