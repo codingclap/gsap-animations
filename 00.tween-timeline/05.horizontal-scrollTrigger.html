@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horizontal - ScrollTrigger</title>
+</head>
+
+<body>
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        .zoox-horizontal {
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .zoox-track {
+            display: flex;
+            height: 100vh;
+            width: 150vw;
+            transform: translateX(-50vw);
+        }
+
+        .box {
+            flex: 0 0 50vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .box1 {
+            background-color: #00BCD4;
+        }
+
+        .box2 {
+            background-color: #FF9800;
+        }
+
+        .box3 {
+            background-color: #4CAF50;
+        }
+
+
+        .zoox-last-box {
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+            background-color: #673AB7;
+        }
+
+        .last-box {
+            width: 100vw;
+            height: 100vh;
+            background-color: #673AB7;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            transform: translateY(100%);
+        }
+    </style>
+
+
+
+    <section class="zoox-horizontal">
+        <div class="zoox-track">
+            <div class="box box1">Text</div>
+            <div class="box box2">Video</div>
+            <div class="box box3">Text</div>
+        </div>
+    </section>
+
+    <section class="zoox-last-box">
+        <div class="last-box">Box 4 (Full Width)</div>
+    </section>
+
+
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Horizontal scroll: Show Box 1 coming from left
+        gsap.to(".zoox-track", {
+            x: "0vw", // Move from -50vw to 0vw (revealing Box 1)
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".zoox-horizontal",
+                start: "top top",
+                end: "+=100%",
+                scrub: 1,
+                pin: true,
+                markers: true,
+            }
+        });
+
+        // Vertical scroll: Slide up Box 4 from bottom
+        gsap.to(".zoox-last-box", {
+            y: "0%",
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".zoox-last-box",
+                start: "top top",
+                end: "+=100%",
+                scrub: 1,
+                markers: true,
+                pinSpacing: false,   // don't leave gap after pin
+                anticipatePin: 1
+            }
+        });
+    </script>
+
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>
