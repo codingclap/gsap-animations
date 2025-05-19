@@ -20,8 +20,7 @@
             background-color: lightblue;
         }
         .star{ width:150px;height:20vh;background-color: rosybrown; }
-        .square{ width:150px;height: 150px;background-color:brown; margin-top: 500px;}
-        .pink{background-color:rgb(93, 0, 129);}
+        .pink{background-color:rgb(93, 0, 129);} 
     </style>
 
     
@@ -29,8 +28,7 @@
          <h1>ScrollTrigger - Start/ End</h1>
     </div>
     <div class="box2">
-        <div class="star"></div>
-        <div class="square"></div>
+        <div class="star"></div> 
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
@@ -39,7 +37,7 @@
         gsap.registerPlugin();
 
          gsap.to('.star',{
-             x:1600,
+             x:1200,
             duration: 3, 
             scrollTrigger:{
                 trigger:'.star',
@@ -47,7 +45,7 @@
                 // end:"bottom 30%",
                 end: () => `+=${document.querySelector('.star').offsetHeight}`,
                 markers:true, 
-                toggleClass:"pink"
+                toggleClass:"pink",
             }
          })
     </script>

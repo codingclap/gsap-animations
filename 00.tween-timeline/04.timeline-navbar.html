@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>GSAP - Timelime Navbar</title>
+</head>
+
+<body>
+     <style>
+          * {
+               margin: 0;
+               padding: 0;
+               box-sizing: border-box;
+          }
+
+          body {
+               font-family: Arial, sans-serif;
+               background-color: #1d1d1d;
+          }
+
+          .navbar {
+               display: flex;
+               justify-content: space-between;
+               align-items: center;
+               /* background-color: #333; */
+               padding: 30px 50px;
+          }
+
+          .navbar .logo {
+               color: #fff;
+               font-size: 24px;
+          }
+
+          .navbar ul {
+               list-style: none;
+               display: flex;
+               gap: 20px;
+          }
+
+          .navbar ul li {
+               display: inline;
+          }
+
+          .navbar ul li a {
+               text-decoration: none;
+               color: #d1c4c4;
+               font-size: 20px;
+               padding: 10px 15px;
+               border-radius: 5px;
+               transition: background-color 0.3s ease;
+          }
+
+          .content {
+               position: absolute;
+               top: 50%;
+               left: 50%;
+               transform: translate(-50%, -50%);
+
+          }
+
+          .content h1 {
+               font-size: 60px;
+               color: #fff;
+          }
+     </style>
+
+     <div class="navbar">
+          <div class="logo">
+               <span>Logo</span>
+          </div>
+          <ul>
+               <li><a href="01.tween.html">Home</a></li>
+               <li><a href="02.tween-timeline.html">About Us</a></li>
+               <li><a href="03.tween-timeline-advanced.html">Contact</a></li>
+               <li><a href="04.timeline-navbar.html">Help!</a></li>
+          </ul>
+     </div>
+
+     <div class="content">
+          <h1 style="color: #fff; text-align: center; margin-top: 100px;">GSAP Timeline Navbar Animation</h1>
+
+     </div>
+
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"></script>
+
+     <script>
+          let navbar = gsap.timeline();
+
+          navbar.from(".logo", {
+               duration: 1,
+               delay: 0.5,
+               opacity: 0,
+               y: -30, 
+          })
+          navbar.from("li", {
+               duration: 1,
+               // delay: 0.1,
+               opacity: 0,
+               y: -30,
+               stagger: 0.3
+
+          })
+
+          navbar.from("h1", {
+               duration: 1,
+               //  delay: 0.1,
+               opacity: 0,
+               y: -30,
+               scale: 0.5, 
+          })
+          navbar.to("h1", {
+               duration: 1,  
+               scale: 0.9, 
+          })
+     </script>
+</body>
+
+</html>
