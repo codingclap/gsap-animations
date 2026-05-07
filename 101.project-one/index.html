@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+     <title>Video - Scrolltrigger</title>
+
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+     <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+
+
+     <!--  Main Container -->
+     <div class="section-1" style="width:100%;">
+          <div class="parent" style="width:100%;position: relative;top:0;left:0;">
+               <div class="child" style="width:100%;height:100vh;position:sticky;top:0;left:0;overflow: hidden;">
+                    <canvas class="aurras-video" id="frame" style="width:100%;height:100%;display: block;"></canvas>
+
+                    <div class="aurras-header-text">
+                         <div class="bg-l"><span>AURRAS</span></div>
+                         <div class="bg-r"><span>AURRAS</span></div>
+
+                         <div class="main-text">
+                              <p class="font-bourgeois-medium">A sci&#x2010;fi, rugged smart speaker designed for the most demanding
+                                   environments. Constructed with lightweight, impact resistant materials, Aurras can
+                                   survive the biggest knocks and still deliver premium HiFi audio.</p>
+                         </div>
+                    </div>
+               </div>
+
+               <!---------------------Navbar------------------->
+               <nav class="navbar navbar-expand-lg navbar-light position-fixed w-100 top-0 left-0 px-4">
+                    <div class="container-fluid">
+                         <a class="navbar-brand font-cyber-alert" href="#">AURRAS</a>
+                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                              data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                              aria-label="Toggle navigation">
+                              <span class="navbar-toggler-icon"></span>
+                         </button>
+                         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                              <ul class="navbar-nav">
+                                   <li class="nav-item">
+                                        <a class="nav-link active" aria-current="page" href="#">
+                                             <img src="img/align-center.png" alt="">
+                                        </a>
+                                   </li>
+
+                              </ul>
+                         </div>
+                    </div>
+               </nav>
+               <!---------------------Navbar------------------->
+
+
+          </div>
+          <!--  Main Container -->
+
+          <section style="background-color: bisque;height: 100vh;">
+               <div class="container pt-5 d-flex justify-content-center align-items-center "
+                    style="height: 100vh;flex-direction: column;">
+                    <div class="row">
+                         <div class="col-12 text-center">
+                              <h1>Scroll to see the animation</h1>
+                              <p>Scroll down to see the animation play.</p>
+                         </div>
+                    </div>
+                    <div class="row">
+                         <div class="col-12 text-center">
+                              <h2>Scroll down to see the animation play.</h2>
+                         </div>
+                    </div>
+          </section>
+
+
+          <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.js"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.0/gsap.min.js"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.3.3/ScrollTrigger.min.js"></script>
+
+          <script>
+               const canvas = document.getElementById("frame");
+               const context = canvas.getContext("2d"); // Define the context
+               const frames = {
+                    currentIndex: 0,
+                    MaxFrames: 78,
+               }
+
+               let imagesLoaded = 0;
+               let images = [];
+               let DPR = window.devicePixelRatio || 1;
+
+               // ── 1. SIZE CANVAS ONCE (not inside loadImage) ──────────
+               function resizeCanvas() {
+                    DPR = window.devicePixelRatio || 1;
+                    canvas.width = window.innerWidth * DPR;
+                    canvas.height = window.innerHeight * DPR;
+                    canvas.style.width = window.innerWidth + "px";
+                    canvas.style.height = window.innerHeight + "px";
+                    // redraw current frame after resize
+                    loadImage(Math.floor(frames.currentIndex));
+               }
+
+               function preloadimages() {
+
+                    for (let i = 1; i <= frames.MaxFrames; i++) {
+                         const img = new Image();
+                         img.src = `./seq/A${i.toString().padStart(2, "0")}.png`;
+                         images.push(img);
+                         console.log(img);
+                         img.onload = () => {
+                              imagesLoaded++;
+                              if (imagesLoaded === frames.MaxFrames) {
+                                   resizeCanvas(); // size canvas BEFORE first draw
+                                   loadImage(frames.currentIndex);
+                                   startAnimation();
+                              }
+                         };
+
+                    }
+
+
+               }
+
+
+               let loadImage = (index) => {
+
+                    if (index >= 0 && index <= frames.MaxFrames) {
+                         const img = images[index];
+
+                         // Use logical size (CSS pixels) for draw math
+                         const W = canvas.width / DPR;
+                         const H = canvas.height / DPR;
+
+                         const scaleX = W / img.width;
+                         const scaleY = H / img.height;
+                         const scale = Math.max(scaleX, scaleY);
+
+                         const innerwidth = window.innerWidth;
+
+                         const mobileScale = innerwidth <= 768 ? 0.5
+                              : innerwidth <= 1050 ? 0.6
+                                   : innerwidth <= 1250 ? 0.7
+                                        : innerwidth <= 1440 ? 0.8
+                                             : innerwidth <= 1920 ? 0.9
+                                                  : 1;
+
+                         const newWidth = img.width * mobileScale;
+                         const newHeight = img.height * mobileScale;
+                         const offsetX = (W - newWidth) / 2;
+                         const offsetY = (H - newHeight) / 2;
+
+                         // Scale context by DPR so coordinates stay in CSS px
+                         context.setTransform(DPR, 0, 0, DPR, 0, 0);
+                         context.clearRect(0, 0, W, H);
+                         context.imageSmoothingEnabled = true;
+                         context.imageSmoothingQuality = "high";
+                         context.drawImage(img, offsetX, offsetY, newWidth, newHeight);
+
+                         frames.currentIndex = index;
+                    }
+               }
+
+
+               function startAnimation() {
+
+                    // ── 2. RESPONSIVE scroll distance ────────────────────
+                    const isMobile = window.innerWidth <= 768;
+                    const scrollDist = isMobile ? 4000 : 8600;
+
+                    var tl = gsap.timeline({
+                         scrollTrigger: {
+                              trigger: ".parent",
+                              start: "top top",
+                              end: `+=${scrollDist}`,
+                              scrub: 1,
+                              // markers: true
+                         }
+                    })
+
+                    tl.to(frames, {
+                         currentIndex: frames.MaxFrames,
+                         onUpdate: function () {
+                              loadImage(Math.floor(frames.currentIndex));
+                         },
+                         duration: 1,
+                    })
+
+               }
+
+               preloadimages();
+
+
+               // ── 3. RESIZE + ORIENTATION CHANGE ───────────────────────
+               window.addEventListener("resize", resizeCanvas);
+               window.addEventListener("orientationchange", () => {
+                    setTimeout(resizeCanvas, 150); // iOS needs a moment
+               });
+
+
+
+          </script>
+</body>
+
+</html>
